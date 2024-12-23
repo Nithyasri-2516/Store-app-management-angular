@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store Management</title>
+</head>
+<body>
+    <div class="topnav">
+        <a href="#home">Home</a>
+        <!-- <a href="#categories">Categories</a> -->
+        <a routerLink="/product"  class="active" >Product</a>
+        <a routerLink="/aboutus">About us</a>
+        <a routerLink="/contact">Contact</a>
+    
+      </div>
+      <br>
+      <br>
+
+    <h1>Store Management</h1>
+    <div id="store-details">
+  
+        <h2>Products Listed</h2>
+        <table>
+            <tr>
+                <th>Product ID</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Discount Applicable</th>
+            </tr>
+            <tr>
+                <td>5001</td>
+                <td><img src="assets/comb.png" alt="" height="50" width="200"></td>
+                <td>20</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>5002</td>
+                <td><img src="assets/cutter.jpg" alt="" height="50" width="200"></td>
+                <td>25</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>5003</td>
+                <td><img src="assets/shampoo.jpg" alt="" height="50" width="200"></td>
+                <td>30</td>
+                <td>No</td>
+            </tr>
+            <tr>
+                <td>5004</td>
+                <td><img src="assets/soap.jpg" alt="" height="50" width="200"></td>
+                <td>40</td>
+                <td>Yes, 20% Discount</td>
+            </tr>
+            <tr>
+                <td>5005</td>
+                <td><img src="assets/brush.jpg" alt="" height="50" width="200"></td>
+                <td>50</td>
+                <td>Yes, 20% Discount</td>
+            </tr>
+        </table>
+
+        <h2>Calculate Bill</h2>
+        <div class="form-container">
+            <form (ngSubmit)="addItem()">
+                <label for="id">Item ID:</label>
+                <input type="number" [(ngModel)]="newItem.itemId" name="id" required /> <br>
+
+                <label for="quantity">Quantity:</label>
+                <input type="number" [(ngModel)]="newItem.quantity" name="quantity" required /> <br>
+
+                <label for="wantsMore">Finish billing (Y/N):</label>
+                <input type="checkbox" [(ngModel)]="newItem.wantsMore" name="wantsMore" required /> <br>
+
+                <button type="submit">Add Item</button>
+                <button type="button" (click)="checkBill()">Check Bill</button> 
+            </form>
+        </div>
+
+        <div class="bill-details" *ngIf="billAmount !== null">
+            
+            <h2>Bill Details</h2>
+            <table>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                </tr>
+                <tr *ngFor="let item of newItems">
+                    <td>{{ item.itemId }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>{{ rates[item.itemId] * item.quantity * (discountItems.includes(item.itemId) ? 0.8 : 1) }}</td>
+                </tr>
+            </table>
+        
+            <h2>Total Bill: {{ billAmount }}</h2>
+
+            <!-- Pay Now Button -->
+            <button routerLink="/payment" id="pay">Pay Now</button>
+        </div>
+
+        <h2>Add to Cart</h2>
+        <ul>
+            <li *ngFor="let item of newItems">
+                <strong>Item ID: {{ item.itemId }}</strong>, Quantity: {{ item.quantity }}
+            </li>
+        </ul>
+     
+        </div>
+</body>
+</html>
